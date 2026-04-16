@@ -8,13 +8,14 @@ import { flattenError } from "zod/v4/core";
 import { ApiResponse, EnvironmentVariable, SortOption } from "../models";
 import EnvironmentVariableField from "./EnvironmentVariableField";
 import { EnvVarSchema } from "../schema";
-import evervaultLogo from "@/assets/evervault_logo.png"
 import StyledGapColumn from "./StyledGapColumn";
 import AddNewEnvVariableForm from "./AddNewEnvVariableForm";
 import { getUpdatedOrCreatedAt, wait } from "../utils";
 import { SORT_OPTIONS } from "../constants";
 import SearchFilterBar from "./SearchFilterBar";
 
+import evervaultLogo from "@/assets/evervault_logo.png"
+import EvervaultSvg from "@/assets/evervault-icon-white.svg"
 
 type EnvVarState = {
     id: string; // for deduplication. in production we'll get something from the server 
@@ -119,7 +120,7 @@ export default function EnvironmentVariableEditor({initialVars} : {initialVars: 
             console.error('Unknown sort option');
             return 0;
         }
-        
+ 
     });
 
     // in the content row,
@@ -155,13 +156,14 @@ export default function EnvironmentVariableEditor({initialVars} : {initialVars: 
 
             {/* COL: logo  & spacer*/}
             <div className="flex justify-end items-end">
-                <Image
+                {/* <Image
                     src={evervaultLogo.src}
                     alt="Evervault Logo"
                     width={evervaultLogo.width}
                     height={evervaultLogo.height}
                     className="w-12 xl:w-16 object-contain mb-2"
-                />
+                /> */}
+                <EvervaultSvg className="size-14 md:size-16 text-accent object-contain mb-2" />
                 <BlackArrow direction="bottomRight" />
             </div>
 
