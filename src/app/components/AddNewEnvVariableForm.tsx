@@ -112,14 +112,14 @@ export default function AddNewEnvVariableForm(
                         isSubmitBtn
                         disabled={isSubmitting}
                     >
-                        <Check className="icon-size" />
+                        <Check className="icon-size draw-icon" />
                     </SquareBtn>
 
                     <SquareBtn
                         disabled={isSubmitting}
                         onClick={() => setIsAddingNewVar(false)}
                     >
-                        <CircleX className="icon-size" />
+                        <CircleX className="icon-size draw-icon" />
                     </SquareBtn>
                 </div>
             </form>

@@ -162,13 +162,13 @@ export default function EnvironmentVariableField({ envVar, onUpdate: handleUpdat
                             disabled={isSubmitting} 
                             onClick={() => setIsEditing(true)}
                         >
-                            <Pencil className="icon-size" />
+                            <Pencil className="icon-size draw-icon" />
                         </SquareBtn>
                         <SquareBtn 
                             disabled={isSubmitting} 
                             onClick={handleDeleteClick}   
                         >
-                            <Trash className="icon-size" />
+                            <Trash className="icon-size draw-icon" />
                         </SquareBtn>
                     </div>
                 }
@@ -191,8 +191,8 @@ export default function EnvironmentVariableField({ envVar, onUpdate: handleUpdat
                             onClick={() => setIsRevealed(!isRevealed)}
                         >
                             {isRevealed 
-                                ? <EyeOff className="icon-size" />
-                                : <Eye className="icon-size" />
+                                ? <EyeOff className="icon-size draw-icon" />
+                                : <Eye className="icon-size draw-icon" />
                             }
                         </SquareBtn>
                     </div>
@@ -271,13 +271,13 @@ export default function EnvironmentVariableField({ envVar, onUpdate: handleUpdat
                             disabled={isSubmitting} 
                             onClick={handleSubmit}
                         >
-                            <Check className="icon-size" />
+                            <Check className="icon-size draw-icon" />
                         </SquareBtn> 
                         <SquareBtn 
                             disabled={isSubmitting} 
                             onClick={handleCancelClick}
                         >
-                            <CircleX className="icon-size" />
+                            <CircleX className="icon-size draw-icon" />
                         </SquareBtn>
                     </div>
                 }
@@ -289,14 +289,14 @@ export default function EnvironmentVariableField({ envVar, onUpdate: handleUpdat
                             disabled={isSubmitting} 
                             onClick={handleSubmit}
                         >
-                            <Check className="icon-size" />
+                            <Check className="icon-size draw-icon" />
                         </SquareBtn> 
 
                         : <SquareBtn
                             disabled={isSubmitting} 
                             onClick={() => setIsEditing(true)}
                         >
-                            <Pencil className="icon-size" />
+                            <Pencil className="icon-size draw-icon" />
                         </SquareBtn>
                     }
                 </div>
@@ -308,13 +308,13 @@ export default function EnvironmentVariableField({ envVar, onUpdate: handleUpdat
                             disabled={isSubmitting} 
                             onClick={handleCancelClick}
                         >
-                            <CircleX className="icon-size" />
+                            <CircleX className="icon-size draw-icon" />
                         </SquareBtn>
                         : <SquareBtn 
                             disabled={isSubmitting} 
                             onClick={handleDeleteClick}   
                         >
-                            <Trash className="icon-size" />
+                            <Trash className="icon-size draw-icon" />
                         </SquareBtn>
                     }
                 </div>
