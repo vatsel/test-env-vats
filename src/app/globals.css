@@ -32,8 +32,10 @@
 
   --spacing-gridgap: 11px;
 
-  --animate-draw-left-to-right: draw-l-to-r 0.5s ease-in forwards;
-  --animate-draw-right-to-left: draw-r-to-l 0.5s ease-in forwards;
+  --animate-draw-left-to-right: draw-l-to-r 0.5s ease-in backwards;
+  --animate-draw-right-to-left: draw-r-to-l 0.5s ease-in backwards;
+  --animate-draw-top-to-bottom: draw-t-to-b 0.5s ease-in backwards;
+  --animate-draw-bottom-to-top: draw-b-to-t 0.5s ease-in backwards;
 }
 
 @utility debug-border {
@@ -67,6 +69,16 @@
 
 @keyframes draw-r-to-l {
   from { clip-path: inset(0 0 0 100%); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes draw-t-to-b {
+  from { clip-path: inset(0 0 100% 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes draw-b-to-t {
+  from { clip-path: inset(100% 0 0 0); }
   to   { clip-path: inset(0 0 0 0); }
 }
 

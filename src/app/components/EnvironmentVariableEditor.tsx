@@ -151,7 +151,7 @@ export default function EnvironmentVariableEditor({initialVars} : {initialVars: 
             `}
         >
 
-            {/* -----  LOGO + HEADER: ROW 1 ------   */}
+            {/* -----  LOGO & HEADER: ROW 1 ------   */}
 
             {/* COL: logo  & spacer*/}
             <div className="flex justify-end items-end">
@@ -165,7 +165,7 @@ export default function EnvironmentVariableEditor({initialVars} : {initialVars: 
                 <BlackArrow direction="bottomRight" />
             </div>
 
-            <StyledGapColumn />
+            <StyledGapColumn className="animate-draw-bottom-to-top" />
 
             <div className="flex flex-col lg:flex-row justify-end lg:items-end ">
                 <h1 
@@ -178,14 +178,14 @@ export default function EnvironmentVariableEditor({initialVars} : {initialVars: 
                 <BlackArrow direction="bottomRight" placeOnRight />
             </div>
             
-            <StyledGapColumn  />
+            <StyledGapColumn className="animate-draw-bottom-to-top [animation-delay:0.4s]" />
 
             <div className="hidden lg:flex items-end ">
                 <SecondHeadline />
                 <BlackArrow direction="bottomRight" placeOnRight />
             </div>
 
-            <StyledGapColumn className="hidden lg:block" />
+            <StyledGapColumn className="hidden lg:block animate-draw-bottom-to-top" />
                     
             <div  /> {/* COL: right spacer  */}
 
@@ -318,15 +318,15 @@ export default function EnvironmentVariableEditor({initialVars} : {initialVars: 
             {/* -----  FOOTER (mostly blank): ROW 3  ------   */}
             
             <div className="dotted-line animate-draw-right-to-left" />
-            <StyledGapColumn hasDottedTopBorder />
+            <StyledGapColumn hasDottedTopBorder className="animate-draw-top-to-bottom"/>
             <div className="dotted-line animate-draw-left-to-right" >
                 <BlackArrow direction="topLeft" />
             </div>
-            <StyledGapColumn hasDottedTopBorder />
+            <StyledGapColumn hasDottedTopBorder className="animate-draw-top-to-bottom [animation-delay:0.4s]" />
             <div className="dotted-line animate-draw-right-to-left" >
                 <BlackArrow direction="topLeft" />
             </div>
-            <StyledGapColumn hasDottedTopBorder className="hidden lg:block" />
+            <StyledGapColumn hasDottedTopBorder className="hidden lg:block animate-draw-top-to-bottom" />
             <div className="dotted-line animate-draw-left-to-right hidden lg:block" >
                 <BlackArrow direction="topLeft" />
             </div>
