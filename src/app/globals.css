@@ -95,7 +95,8 @@
 .draw-evervault-svg-logo {
   stroke-dasharray: 1340;
   stroke-dashoffset: 1340;
-  animation: draw-svg-logo 1s ease-out forwards;
+  animation: draw-svg-logo 0.5s ease-out forwards;
+  animation-delay: 0.3s;
 }
 
 /* @media (prefers-color-scheme: dark) {

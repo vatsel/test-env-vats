@@ -6,8 +6,8 @@
                     attributeName="width"
                     from="0"
                     to="519"
-                    dur="0.4s"
-                    begin="0.4s"
+                    dur="0.2s"
+                    begin="0s"
                     fill="freeze"
                 />
             </rect>
