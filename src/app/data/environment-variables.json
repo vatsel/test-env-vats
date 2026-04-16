@@ -1,0 +1,19 @@
+[
+  { "name": "NODE_ENV", "value": "production" },
+  { "name": "PORT", "value": "3000" },
+  { "name": "LOG_LEVEL", "value": "info" },
+  {
+    "name": "FEATURE_FLAGS",
+    "value": "betaDashboard=true,enhancedSearch=false,newCheckout=true"
+  },
+  {
+    "name": "DATABASE_URL",
+    "value": "postgres://app_user:SuperSecretP@ssw0rd@db.internal.example.com:5432/app_db?sslmode=require&connect_timeout=10"
+  },
+  {
+    "name": "REDIS_URL",
+    "value": "redis://:1234abcd@cache.internal.example.com:6379/0"
+  },
+  { "name": "JWT_SECRET", "value": "X9u4PpG1z!aR7qVb2Kc@5LmN8s#HdW3" },
+  { "name": "API_KEY", "value": "srv_live_9f3a1c7b4e92d0a6f58c21d8b3e47c10" }
+]

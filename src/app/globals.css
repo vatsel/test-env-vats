@@ -1,0 +1,143 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@font-face {
+  font-family: "Roobert";
+  src: url("/fonts/Roobert.woff") format("woff");
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --font-sans: var(--font-inter);
+  --font-roobert: "Roobert", sans-serif;
+  --font-outline-geist: var(--font-outline-geist);
+  --font-mono-geist: var(--font-mono-geist);
+
+
+  --color-primary: #000000;
+  --color-secondary: #333333;
+  --color-tertiary: #6c6c6c;
+
+  --color-accent: #63e;
+  --color-base: #fff;
+  --color-off-white: #F4F4F9;
+
+  --color-ui-detail: #C7C7C7;
+
+  --spacing-gridgap: 11px;
+
+  --animate-draw-left-to-right: draw-l-to-r 0.5s ease-in forwards;
+  --animate-draw-right-to-left: draw-r-to-l 0.5s ease-in forwards;
+}
+
+@utility debug-border {
+  border: 1px solid red;
+}
+
+@utility debug-border2 {
+  border: 1px solid green;
+}
+
+@utility text-outline {
+  -webkit-text-stroke: 1px #000;
+  color: transparent;
+}
+
+@utility icon-size {
+  width: 1rem;
+  height: 1rem;
+}
+
+.dotted-line {
+  background-image: radial-gradient(circle, #696969 1px, transparent 1px);
+  background-size: 5px 1px;
+  background-repeat: repeat-x;
+}
+
+@keyframes draw-l-to-r {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes draw-r-to-l {
+  from { clip-path: inset(0 0 0 100%); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+
+/* @media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+} */
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.dashed-border {
+  --dash: 6px;
+  --gap: 4px;
+  --seg: calc(var(--dash) + var(--gap));
+  --w: 1px;
+  --border-color: currentColor;
+
+  border: none;
+  background-image:
+    repeating-linear-gradient(90deg,  var(--border-color) 0 var(--dash), transparent 0 var(--seg)),
+    repeating-linear-gradient(90deg,  var(--border-color) 0 var(--dash), transparent 0 var(--seg)),
+    repeating-linear-gradient(0deg,   var(--border-color) 0 var(--dash), transparent 0 var(--seg)),
+    repeating-linear-gradient(0deg,   var(--border-color) 0 var(--dash), transparent 0 var(--seg));
+
+  background-size:
+    var(--seg) var(--w),   /* top */
+    var(--seg) var(--w),   /* bottom */
+    var(--w) var(--seg),   /* left */
+    var(--w) var(--seg);   /* right */
+
+  background-position:
+    0 0,
+    0 100%,
+    0 0,
+    100% 0;
+
+  background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+}
+
+@keyframes loop-anim {
+  to {
+    background-position:
+      var(--seg) 0,
+      calc(-1 * var(--seg)) 100%,
+      0 calc(-1 * var(--seg)),
+      100% var(--seg);
+  }
+}
+
+.dashed-border:focus-within {
+  --gap: 0px;
+  --w: 2px;
+  --border-color: var(--color-primary);
+}
+
+.dashed-border.solid-dash {
+  --gap: 0px;
+  --border-color: var(--color-ui-detail);
+}
+
+.dashed-border.looping-dash {
+  --border-color: var(--color-primary);
+  animation: loop-anim 0.4s linear infinite;
+}
+
+::selection {
+  background-color: var(--color-accent);
+  color: var(--color-base);
+}
