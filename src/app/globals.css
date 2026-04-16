@@ -82,6 +82,22 @@
   to   { clip-path: inset(0 0 0 0); }
 }
 
+@keyframes draw-svg-logo {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes wipe-in-svg-logo {
+  from { clip-path: inset(0 100% 0 0 ); }
+  to   { clip-path: inset(0 0 0 0 ); }
+}
+
+
+.draw-evervault-svg-logo {
+  stroke-dasharray: 1340;
+  stroke-dashoffset: 1340;
+  animation: draw-svg-logo 1s ease-out forwards;
+}
+
 /* @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;

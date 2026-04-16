@@ -156,14 +156,10 @@ export default function EnvironmentVariableEditor({initialVars} : {initialVars: 
 
             {/* COL: logo  & spacer*/}
             <div className="flex justify-end items-end">
-                {/* <Image
-                    src={evervaultLogo.src}
-                    alt="Evervault Logo"
-                    width={evervaultLogo.width}
-                    height={evervaultLogo.height}
-                    className="w-12 xl:w-16 object-contain mb-2"
-                /> */}
-                <EvervaultSvg className="size-14 md:size-16 text-accent object-contain mb-2" />
+                <EvervaultSvg className={`size-14 md:size-16 mb-2
+                    text-accent object-contain 
+                    draw-evervault-svg-logo 
+                `} />
                 <BlackArrow direction="bottomRight" />
             </div>
 
