@@ -1,6 +1,6 @@
 <svg className="border-svg" aria-hidden="true">
-    <line class="edge top" x1="0"    y1="0.5"    x2="100%"   y2="0.5"    pathLength="1" />
-    <line class="edge bottom" x1="100%" y1="calc(100% - 0.5px)" x2="0" y2="calc(100% - 0.5px)" pathLength="1" />
-    <line class="edge left"  x1="0.5"  y1="100%"   x2="0.5"    y2="0"      pathLength="1" />
-    <line class="edge right" x1="calc(100% - 0.5px)" y1="0" x2="calc(100% - 0.5px)" y2="100%" pathLength="1" />
+    <line class="edge top"    x1="0"    y1="0.5"  x2="100%" y2="0.5"  pathLength="1" />
+    <line class="edge bottom" x1="100%" y1="100%"  x2="0"    y2="100%" pathLength="1" />
+    <line class="edge left"   x1="0.5"  y1="100%"  x2="0.5"  y2="0"    pathLength="1" />
+    <line class="edge right"  x1="100%" y1="0"     x2="100%" y2="100%" pathLength="1" />
 </svg>

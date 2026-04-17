@@ -169,7 +169,7 @@ export default function EnvironmentVariableField({ envVar, onUpdate, onDelete}: 
                 
                 {/*  < lg: Edit and Delete button */}
                 {(displayMode === 'view' || displayMode === 'aboutToDelete') &&
-                    <div className="flex gap-1 lg:hidden z-10">
+                    <div className="flex gap-1 lg:hidden z-10 mb-px">
                         {displayMode === 'view' &&
                             <>
                                 <SquareBtn
@@ -268,6 +268,7 @@ export default function EnvironmentVariableField({ envVar, onUpdate, onDelete}: 
                             />
                             : <>
                                 <button 
+                                    tabIndex={0}
                                     type="button"
                                     className={`min-w-0 truncate peer outline-none
                                         ${isRevealed ? '' : 'pt-1.5'}`}

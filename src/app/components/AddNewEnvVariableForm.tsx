@@ -132,6 +132,7 @@ export default function AddNewEnvVariableForm(
             </form>
             : <div className="h-11 shrink-0 text-[12px] font-medium lg:grid lg:grid-cols-subgrid lg:col-span-3">
                 <button 
+                    tabIndex={0}
                     type="button"
                     className={`flex outline-none pl-6 w-full h-full
                         bg-accent text-foundation items-center

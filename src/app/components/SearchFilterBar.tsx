@@ -19,6 +19,7 @@ export default function SearchFilterBar({ searchQuery, setSearchQuery, sortOptio
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [activeDropdownIndex, setActiveDropdownIndex] = useState(0);
     const itemRefs = useRef<(HTMLButtonElement | null)[]>([]);
+    const dropdownRef = useRef<HTMLDivElement>(null);
 
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -28,7 +29,9 @@ export default function SearchFilterBar({ searchQuery, setSearchQuery, sortOptio
 
         } else if (e.key === 'ArrowUp') {
             e.preventDefault(); // prevent scroll
-            setActiveDropdownIndex((prevIndex) => (prevIndex - 1) % SORT_OPTIONS.length);
+            setActiveDropdownIndex(
+                (prevIndex) => (prevIndex - 1 + SORT_OPTIONS.length) % SORT_OPTIONS.length
+            );
 
         } else if (e.key === ' ' || e.key === 'Enter') {
             e.preventDefault(); // any potential forms etc
@@ -55,8 +58,18 @@ export default function SearchFilterBar({ searchQuery, setSearchQuery, sortOptio
             }
         };
 
+        const handleClickOutside = (e: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+                setIsDropdownOpen(false);
+            }
+        };
+
         window.addEventListener('keydown', handleEscape);
-        return () => window.removeEventListener('keydown', handleEscape);
+        window.addEventListener('mousedown', handleClickOutside);
+        return () => { 
+            window.removeEventListener('keydown', handleEscape);
+            window.removeEventListener('mousedown', handleClickOutside);
+        }
     }, [isDropdownOpen]);
 
 
@@ -94,6 +107,7 @@ export default function SearchFilterBar({ searchQuery, setSearchQuery, sortOptio
                 />
                 {searchQuery && 
                     <button 
+                        tabIndex={0}
                         onClick={() => setSearchQuery('')}
                         type="button"
                         aria-label="Clear search"
@@ -107,7 +121,7 @@ export default function SearchFilterBar({ searchQuery, setSearchQuery, sortOptio
             
 
             {/* FILTER */}
-            <div className="flex w-full relative">
+            <div className="flex w-full relative " ref={dropdownRef}>
                 <button 
                     className={`flex px-4 w-full h-11 xl:h-full gap-2
                         bg-foundation border-primary border 
@@ -117,17 +131,18 @@ export default function SearchFilterBar({ searchQuery, setSearchQuery, sortOptio
                         hover:bg-primary hover:text-foundation
                         focus-within:border-2 focus-within:border-primary
                         `}
-                        type="button"
-                        aria-label={`Sort by ${sortOption}`}
-                        onClick={() => {
-                            if (isDropdownOpen) {
-                                setIsDropdownOpen(false);
-                            } else {
-                                setIsDropdownOpen(true);
-                                setActiveDropdownIndex(SORT_OPTIONS.indexOf(sortOption));
-                            }
-                        }}
-                        >
+                    tabIndex={0}
+                    type="button"
+                    aria-label={`Sort by ${sortOption}`}
+                    onClick={() => {
+                        if (isDropdownOpen) {
+                            setIsDropdownOpen(false);
+                        } else {
+                            setIsDropdownOpen(true);
+                            setActiveDropdownIndex(SORT_OPTIONS.indexOf(sortOption));
+                        }
+                    }}
+                >
                     <ArrowDownNarrowWide className="shrink-0 icon-size" />
                     <span className="shrink-0">{sortOption}</span>
                     <ChevronDown className={`icon-size draw-icon shrink-0 
@@ -150,6 +165,7 @@ export default function SearchFilterBar({ searchQuery, setSearchQuery, sortOptio
                                 className={`w-full`}
                             >
                                 <button 
+                                    tabIndex={0}
                                     type="button"
                                     ref={(el) => {itemRefs.current[i] = el;}}
                                     className={`w-full text-left px-3 py-2 

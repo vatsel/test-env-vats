@@ -15,6 +15,7 @@ export default function SquareBtn(
     return (
         <DashedBorder className={disabled ? 'border-color-tertiary' : '' }>
             <button
+                tabIndex={disabled ? -1 : 0}
                 onClick={onClick}
                 disabled={disabled}
                 aria-label={ariaLabel}
