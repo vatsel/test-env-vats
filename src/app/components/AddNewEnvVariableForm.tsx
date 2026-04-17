@@ -75,7 +75,8 @@ export default function AddNewEnvVariableForm(
                             onChange={(e) => setNewVarName(e.target.value)}
                             className={`outline-none text-primary 
                                 placeholder:text-ui-detail w-full 
-                                text-base sm:text-[12px]`}
+                                text-base sm:text-[12px]
+                                font-normal sm:font-semibold`}
                         />
                     </div>
                     {/* we also show any overall form errors in the name section */}
@@ -103,7 +104,9 @@ export default function AddNewEnvVariableForm(
                                 onChange={(e) => setNewVarValue(e.target.value)}
                                 className={`outline-none text-primary 
                                     placeholder:text-ui-detail w-full 
-                                    text-base sm:text-[12px]`}
+                                    text-base sm:text-[12px]
+                                    font-normal sm:font-semibold
+                                    `}
                             />
                         </div>
                     {errors.fieldErrors.value && 

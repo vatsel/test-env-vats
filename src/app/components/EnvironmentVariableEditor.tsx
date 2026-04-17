@@ -1,6 +1,5 @@
 "use client"; //  use client since data can't be updated on the server and data is stored in state
 
-import Image from "next/image";
 import { Fragment, useState } from "react";
 import { flattenError } from "zod/v4/core";
 
@@ -14,7 +13,7 @@ import { getUpdatedOrCreatedAt, wait } from "../utils";
 import { SORT_OPTIONS } from "../constants";
 import SearchFilterBar from "./SearchFilterBar";
 
-import evervaultLogo from "@/assets/evervault_logo.png"
+
 import EvervaultSvg from "@/assets/evervault-icon-white.svg"
 
 type EnvVarState = {
@@ -117,7 +116,7 @@ export default function EnvironmentVariableEditor({initialVars} : {initialVars: 
         } else if (sortOption === 'Name Z-A') {
             return b.name.localeCompare(a.name);
         } else {
-            console.error('Unknown sort option');
+            console.error(`Unknown sort option ${sortOption}`);
             return 0;
         }
  
@@ -147,7 +146,7 @@ export default function EnvironmentVariableEditor({initialVars} : {initialVars: 
                 grid-cols-[10vw_11px_1fr_11px_6vw]
                 sm:grid-cols-[18vw_11px_1fr_11px_12vw]
                 lg:grid-cols-[12vw_11px_1fr_11px_2.3fr_11px_3vw]
-                xl:grid-cols-[16vw_11px_1fr_11px_2.3fr_11px_10vw]
+                xl:grid-cols-[16.5vw_11px_1fr_11px_2.3fr_11px_10.5vw]
 
                 grid-rows-[30vh_minmax(67vh,auto)_10vh] 
                 xl:grid-rows-[30vh_minmax(60vh,auto)_10vh] 
@@ -171,7 +170,8 @@ export default function EnvironmentVariableEditor({initialVars} : {initialVars: 
 
             <div className="flex flex-col lg:flex-row justify-end lg:items-end ">
                 <h1 
-                    className={`text-5xl sm:text-6xl xl:text-7xl font-semibold tracking-tighter
+                    className={`font-outline-geist font-semibold tracking-tighter
+                        text-5xl sm:text-6xl xl:text-7xl 
                         lg:pb-1 pl-2.5 lg:pl-3 pr-3`}
                 >
                     Environment

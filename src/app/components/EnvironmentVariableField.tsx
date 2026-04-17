@@ -11,6 +11,7 @@ import { getTimeStr } from "../utils";
 import ErrorTooltip from "./ErrorTooltip";
 
 
+
 type Props = {
     envVar: EnvironmentVariable;
     onUpdate: (name: string, value: string) => Promise<ApiResponse>;
@@ -124,13 +125,13 @@ export default function EnvironmentVariableField({ envVar, onUpdate, onDelete}: 
             {/* COLUMN 1: name  
             MD and smaller: edit and delete as well */}
             <div className="flex flex-row gap-1 lg:flex-col overflow-hidden -mx-px ">
-                
                 <div className="w-full lg:w-auto">
                     <div 
                         className={`flex items-center
+                            relative 
+                            dashed-border
                             pl-5 lg:pl-6 h-11 bg-foundation 
                             duration-100 ease-out  
-                            dashed-border 
                             ${(displayMode !== 'edit' && !isSubmitting) ? 'solid-dash' : ''}
                             ${isSubmitting ? 'looping-dash mx-px' : ''} 
                             ${displayMode === 'edit'  
@@ -150,10 +151,12 @@ export default function EnvironmentVariableField({ envVar, onUpdate, onDelete}: 
                                 onChange={(e) => setEnvVarName(e.target.value)}
                                 className={`flex 
                                     text-[16px] sm:text-[12px]
+                                    font-normal sm:font-semibold
                                     items-center text-primary outline-none h-11 
                                     placeholder:text-ui-detail w-full 
                                     `}
                             /> 
+                            
                             : <span className="z-10 text-tertiary truncate">
                                 {envVarName}
                             </span>
@@ -261,6 +264,7 @@ export default function EnvironmentVariableField({ envVar, onUpdate, onDelete}: 
                                 placeholder="Value"
                                 className={`flex items-center w-full text-primary outline-none
                                     text-base sm:text-[12px]
+                                    font-normal sm:font-semibold
                                     placeholder:text-ui-detail`}
                             />
                             : <>
@@ -382,7 +386,7 @@ export default function EnvironmentVariableField({ envVar, onUpdate, onDelete}: 
                             disabled={isSubmitting} 
                             onClick={handleDeleteClick}   
                         >
-                            <Trash className="icon-size draw-icon" />
+                            <Trash className="icon-size draw-intru" />
                         </SquareBtn>
                     }
                 </div>
