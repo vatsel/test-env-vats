@@ -41,7 +41,11 @@ export default function EnvironmentVariableEditor({initialVars} : {initialVars: 
         })) 
     );
 
-    const checkInput = async (id: string, name: string, value: string): Promise<ApiResponse> =>  {
+    const checkInput = async (
+        name: string, 
+        value: string, 
+        checkUniqueId?: string
+    ): Promise<ApiResponse> =>  {
         const parseResult = EnvVarSchema.safeParse({name, value});
 
         if (!parseResult.success) {
@@ -50,13 +54,14 @@ export default function EnvironmentVariableEditor({initialVars} : {initialVars: 
             return {success: false, errors};
         }
         const { name: parsedName } = parseResult.data;
-
-        if (envVarsState.some((envVar) => envVar.id !== id && envVar.name === parsedName)) {
-            return {
-                success: false, 
-                // can write a helper method to autofill the errors object in the future
-                errors: { formErrors: [], fieldErrors: {name: ['Name must be unique']}} 
-            };
+        if (checkUniqueId){
+            if (envVarsState.some((envVar) => envVar.id !== checkUniqueId && envVar.name === parsedName)) {
+                return {
+                    success: false, 
+                    // can write a helper method to autofill the errors object in the future
+                    errors: { formErrors: [], fieldErrors: {name: ['Name must be unique']}} 
+                };
+            }
         }
 
         return { success: true };
@@ -72,7 +77,7 @@ export default function EnvironmentVariableEditor({initialVars} : {initialVars: 
     };
 
     const handleAdd = async (name: string, value: string): Promise<ApiResponse> => {
-        const checkResult = await checkInput( "", name, value);
+        const checkResult = await checkInput( name, value);
         if (!checkResult.success) {
             return checkResult;
         }
@@ -88,7 +93,7 @@ export default function EnvironmentVariableEditor({initialVars} : {initialVars: 
     };
 
     const handleUpdate = async (id: string, name: string, value: string): Promise<ApiResponse> => {
-        const checkResult = await checkInput(id, name, value);
+        const checkResult = await checkInput(name, value, id);
         if (!checkResult.success) {
             return checkResult;
         }
@@ -104,11 +109,11 @@ export default function EnvironmentVariableEditor({initialVars} : {initialVars: 
         return {success: true};
     };
 
-    const fitleredEnvVars = envVarsState.filter((envVar) => 
+    const filteredEnvVars = envVarsState.filter((envVar) => 
         envVar.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    const sortedEnvVars = fitleredEnvVars.toSorted((a, b) => {
+    const sortedEnvVars = filteredEnvVars.toSorted((a, b) => {
         if (sortOption === 'Last Updated') {
             return getUpdatedOrCreatedAt(b).getTime() - getUpdatedOrCreatedAt(a).getTime();
         } else if (sortOption === 'Name A-Z') {
@@ -245,7 +250,7 @@ export default function EnvironmentVariableEditor({initialVars} : {initialVars: 
                     <StyledGapColumn className="hidden lg:block" />
                 </div>
 
-                {fitleredEnvVars.length === 0 &&
+                {filteredEnvVars.length === 0 &&
                     <>
                         {/* Spacer row */}
                         <div className="lg:grid lg:grid-cols-subgrid lg:col-span-3 text-[12px]">
@@ -344,7 +349,7 @@ export default function EnvironmentVariableEditor({initialVars} : {initialVars: 
 
 
             <div aria-live="polite" className="sr-only">
-                {fitleredEnvVars.length} results found
+                {filteredEnvVars.length} results found
             </div>
         </div>
     );

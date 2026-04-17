@@ -87,7 +87,6 @@ export default function EnvironmentVariableField({ envVar, onUpdate, onDelete}: 
             setErrors({ formErrors: [UNKNOWN_ERROR], fieldErrors: {} });
         } finally {
             setDisplayMode('view');
-            setIsSubmitting(false);
         } 
     };
 
@@ -158,7 +157,7 @@ export default function EnvironmentVariableField({ envVar, onUpdate, onDelete}: 
                             /> 
                             
                             : <span className="z-10 text-tertiary truncate">
-                                {envVarName}
+                                {envVar.name}
                             </span>
                         }
                     </div>

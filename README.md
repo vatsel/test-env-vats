@@ -41,5 +41,5 @@ As mentioned in the brief, the main component EnvironmentVariableEditor ends up 
 ## remaining TODOs
 1. The headline font is not Roobert or Inter but Geist, because neither of the fonts were designed for outline-only display. A few glyphs can be fixed in Roobert to display it as an outline
 2. A dark mode was designed in Figma, which can be quickly implemented by changing the tailwindcss color values with a prefers-color-scheme media query
-3. Mobile tweaks to increase the size of elements and bring things back into balance
+3. Mobile visual updates to increase the size of elements and bring things back into balance
 4. Create a unique animated icon (SVG) for Environment Variables, to replace the evervault logo

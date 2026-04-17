@@ -1,44 +1,33 @@
 import { EnvironmentVariable } from "./models";
+import { DATE_FORMAT_THIS_YEAR, DATE_FORMAT_OTHER_YEAR, JUST_NOW_MS } from "./constants";
 
 export const wait = (s: number) => {
     return new Promise(resolve => setTimeout(resolve, s * 1000)); 
 };
 
+const formatDate = (date: Date): string => {
+    const dateFormat = (date.getFullYear() === new Date().getFullYear())
+        ? DATE_FORMAT_THIS_YEAR
+        : DATE_FORMAT_OTHER_YEAR;
+    
+    return date.toLocaleString('en-GB', dateFormat);
+};
+
 export const getTimeStr = (envVar: EnvironmentVariable) => {
-    if (envVar.lastUpdated && Date.now() - envVar.lastUpdated.getTime() < 24 * 60 * 60 * 1000) {
+    if (envVar.lastUpdated && Date.now() - envVar.lastUpdated.getTime() < JUST_NOW_MS) {
         return 'Updated just now';
     }
 
-    if (Date.now() - envVar.createdAt.getTime() < 24 * 60 * 60 * 1000) {
+    if (Date.now() - envVar.createdAt.getTime() < JUST_NOW_MS) {
         return 'Added just now';
     }
 
     if (envVar.lastUpdated) {
-        if (envVar.lastUpdated.getFullYear() === new Date().getFullYear()) {
-            return `Updated ${envVar.lastUpdated.toLocaleString('en-GB',{
-                day: 'numeric',
-                month: 'short',
-            })}`
-        }
-        return `Updated ${envVar.lastUpdated.toLocaleString('en-GB',{
-            day: 'numeric',
-            month: 'short',
-            year: 'numeric',
-        })}`;
+        return `Updated ${formatDate(envVar.lastUpdated)}`;
 
-    } else { // no update date, return Added 
-        if (envVar.createdAt.getFullYear() === new Date().getFullYear()) {
-            return `Added ${envVar.createdAt.toLocaleString('en-GB',{
-                day: 'numeric',
-                month: 'short',
-            })}`
-        } 
-        return `Added ${envVar.createdAt.toLocaleString('en-GB',{
-            day: 'numeric',
-            month: 'short',
-            year: 'numeric',
-        })}`
-    }
+    } 
+    // no update date, return Added 
+    return `Added ${formatDate(envVar.createdAt)}`;
 }
 
 export const getUpdatedOrCreatedAt = (envVar: EnvironmentVariable): Date => {

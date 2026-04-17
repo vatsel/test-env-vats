@@ -14,7 +14,7 @@ const dates: Date[] = [
 ];
 
 
-export function loadEnvironmentVariables(someId: string): EnvironmentVariable[] {
+export async function loadEnvironmentVariables(someId: string): Promise<EnvironmentVariable[]> {
     // do nothing with our dummy id, use our mock data instead
 
     // This method doesn't guarantee the update date is after creation date
