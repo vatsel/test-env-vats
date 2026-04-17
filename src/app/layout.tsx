@@ -20,7 +20,7 @@ const monoGeist = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Environment Variables Editor",
-  description: "",
+  description: "Evervault — Flexible Payments Security",
 };
 
 export default function RootLayout({

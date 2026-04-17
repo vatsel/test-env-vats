@@ -62,8 +62,8 @@ export default function SearchFilterBar({ searchQuery, setSearchQuery, sortOptio
 
     return (
         <div className={`relative flex gap-3 -mx-px
-            flex-row lg:flex-col xl:flex-row 
-            h-11 lg:h-full xl:h-11 `}>
+            flex-col sm:flex-row lg:flex-col xl:flex-row 
+            h-full sm:h-11 lg:h-full xl:h-11 `}>
 
             {/* SEARCH */}
             <div className={`flex pl-4 z-10 

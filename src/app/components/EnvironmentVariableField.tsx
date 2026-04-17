@@ -1,8 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Check, CircleX, Eye, EyeOff, Pencil, Trash } from "lucide-react";
-
 
 import { ApiResponse, EnvironmentVariable, ParseErrors } from "../models";
 import SquareBtn from "./SquareBtn";
@@ -10,6 +9,7 @@ import { UNKNOWN_ERROR, HIDDEN_ENV_CHAR } from "../constants";
 import StyledGapColumn from "./StyledGapColumn";
 import { getTimeStr } from "../utils";
 import ErrorTooltip from "./ErrorTooltip";
+
 
 type Props = {
     envVar: EnvironmentVariable;
@@ -24,14 +24,16 @@ const CLIPBOARD_MESSAGES: Record<ClipboardCopyState, string> = {
     error: 'Error'
 };
 
-export default function EnvironmentVariableField({ envVar, onUpdate: handleUpdate, onDelete: handleDelete}: Props) {
+type DisplayMode = 'view' | 'edit' | 'aboutToDelete'; 
+
+export default function EnvironmentVariableField({ envVar, onUpdate, onDelete}: Props) {
     const [isRevealed, setIsRevealed] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [isEditing, setIsEditing] = useState(false);
     const [envVarName, setEnvVarName] = useState(envVar.name);
     const [envVarValue, setEnvVarValue] = useState(envVar.value);
     const [errors, setErrors] = useState<ParseErrors>({ formErrors: [], fieldErrors: {} });
     const [copyState, setCopyState] = useState<ClipboardCopyState>('idle');
+    const [displayMode, setDisplayMode] = useState<DisplayMode>('view');
 
     const clearErrors = () => {
         setErrors({ formErrors: [], fieldErrors: {} });
@@ -42,10 +44,10 @@ export default function EnvironmentVariableField({ envVar, onUpdate: handleUpdat
         // we'll wrap it in a try-catch so our button doesn't freeze
         try {
             setIsSubmitting(true);
-            const response = await handleUpdate(envVarName, envVarValue);
+            const response = await onUpdate(envVarName, envVarValue);
 
             if (response.success) {
-                setIsEditing(false);
+                setDisplayMode('view');
                 setIsRevealed(false);
                 clearErrors();
             } else {
@@ -58,20 +60,24 @@ export default function EnvironmentVariableField({ envVar, onUpdate: handleUpdat
         }
     };
 
-    const handleCancelClick =  () => {
+    const handleCancelClick = () => {
         setEnvVarName(envVar.name);
         setEnvVarValue(envVar.value);
         clearErrors();
 
-        setIsEditing(false);
+        setDisplayMode('view');
     };
 
-    const handleDeleteClick = async () => {
+    const handleDeleteClick = () => {
+        setDisplayMode('aboutToDelete');
+    };
+
+    const handleConfirmDelete = async () => {
         // handleDelete is on the client, but let's pretend it's on the server 
         // we'll wrap it in a try-catch so our button doesn't freeze
         try {
             setIsSubmitting(true);
-            const response = await handleDelete();
+            const response = await onDelete();
 
             if (!response.success) {
                 setErrors(response.errors);
@@ -79,13 +85,14 @@ export default function EnvironmentVariableField({ envVar, onUpdate: handleUpdat
         } catch {
             setErrors({ formErrors: [UNKNOWN_ERROR], fieldErrors: {} });
         } finally {
+            setDisplayMode('view');
             setIsSubmitting(false);
         } 
     };
 
 
     const handleEnter = (e: React.KeyboardEvent) => {
-        if (isEditing && !isSubmitting && e.key === 'Enter') {
+        if (displayMode === 'edit' && !isSubmitting && e.key === 'Enter') {
             e.preventDefault();
             handleSubmit();
         }
@@ -123,16 +130,16 @@ export default function EnvironmentVariableField({ envVar, onUpdate: handleUpdat
                             pl-5 lg:pl-6 h-11 bg-base 
                             duration-100 ease-out  
                             dashed-border 
-                            ${(!isEditing && !isSubmitting) ? 'solid-dash' : ''}
+                            ${(displayMode !== 'edit' && !isSubmitting) ? 'solid-dash' : ''}
                             ${isSubmitting ? 'looping-dash mx-px' : ''} 
-                            ${isEditing 
+                            ${displayMode === 'edit'  
                                 ? "mx-px font-semibold text-tertiary" 
                                 // text-* sets colour in our dashed-border utility
                                 : 'font-medium' // extra px for border growth
                             }       
                         `}
                     >
-                        {isEditing
+                        {displayMode === 'edit'
                             ? <input 
                                 type="text"
                                 autoFocus
@@ -154,22 +161,48 @@ export default function EnvironmentVariableField({ envVar, onUpdate: handleUpdat
                         <ErrorTooltip errorText={errors.fieldErrors.name?.[0] || errors.formErrors[0]} />
                     }
                 </div>
-
+                
                 {/*  < lg: Edit and Delete button */}
-                {!isEditing &&
+                {(displayMode === 'view' || displayMode === 'aboutToDelete') &&
                     <div className="flex gap-1 lg:hidden z-10">
-                        <SquareBtn
-                            disabled={isSubmitting} 
-                            onClick={() => setIsEditing(true)}
-                        >
-                            <Pencil className="icon-size draw-icon" />
-                        </SquareBtn>
-                        <SquareBtn 
-                            disabled={isSubmitting} 
-                            onClick={handleDeleteClick}   
-                        >
-                            <Trash className="icon-size draw-icon" />
-                        </SquareBtn>
+                        {displayMode === 'view' &&
+                            <>
+                                <SquareBtn
+                                    ariaLabel="Edit value"
+                                    disabled={isSubmitting} 
+                                    onClick={() => setDisplayMode('edit')}
+                                >
+                                    <Pencil className="icon-size draw-icon" />
+                                </SquareBtn>
+                                <SquareBtn 
+                                    ariaLabel="Delete variable"
+                                    disabled={isSubmitting} 
+                                    onClick={handleDeleteClick}   
+                                >
+                                    <Trash className="icon-size draw-icon" />
+                                </SquareBtn>
+                            </>
+                        }
+                        {displayMode === 'aboutToDelete' &&
+                            <>
+                                <SquareBtn 
+                                    invert
+                                    ariaLabel="Confirm delete"
+                                    disabled={isSubmitting} 
+                                    onClick={handleConfirmDelete}
+                                >
+                                    <Check className="icon-size draw-icon" />
+                                </SquareBtn>
+                                <SquareBtn
+                                    invert
+                                    ariaLabel="Cancel delete"
+                                    disabled={isSubmitting} 
+                                    onClick={handleCancelClick}
+                                >
+                                    <CircleX className="icon-size draw-icon" />
+                                </SquareBtn>
+                            </>
+                        }
                     </div>
                 }
             </div>
@@ -184,9 +217,10 @@ export default function EnvironmentVariableField({ envVar, onUpdate: handleUpdat
             <div className="flex gap-1 lg:gap-gridgap items-start">
 
                 {/* View Hide Icon */}
-                {!isEditing &&
+                {displayMode !== 'edit' &&
                     <div className="-ml-px"> {/* overlap the lighter border */}
                         <SquareBtn 
+                            ariaLabel={isRevealed ? 'Hide value' : 'Reveal value'}
                             disabled={isSubmitting} 
                             onClick={() => setIsRevealed(!isRevealed)}
                         >
@@ -207,15 +241,15 @@ export default function EnvironmentVariableField({ envVar, onUpdate: handleUpdat
                         bg-base text-tertiary
 
                         dashed-border
-                        ${(!isEditing && !isSubmitting) ? 'solid-dash' : ''}
+                        ${(displayMode !== 'edit' && !isSubmitting) ? 'solid-dash' : ''}
                         ${isSubmitting ? 'looping-dash mx-px' : ''} 
-                        ${isEditing 
+                        ${displayMode === 'edit' 
                             ? 'font-semibold text-tertiary' 
                             // text-* sets colour in our dashed-border utility
                             : 'font-medium'
                         }
                     `}>
-                        {isEditing 
+                        {displayMode === 'edit' 
                             ? <input 
                                 type="text"
                                 aria-label="Variable value"
@@ -263,17 +297,19 @@ export default function EnvironmentVariableField({ envVar, onUpdate: handleUpdat
                     }
 
                 </div>
-
+                
                 {/* < lg : Confirm and Cancel button */}
-                {isEditing &&
+                {displayMode === 'edit' &&
                     <div className="flex gap-1 lg:hidden -mr-px z-10">
                         <SquareBtn
+                            ariaLabel="Submit edit"
                             disabled={isSubmitting} 
                             onClick={handleSubmit}
                         >
                             <Check className="icon-size draw-icon" />
                         </SquareBtn> 
                         <SquareBtn 
+                            ariaLabel="Cancel edit"
                             disabled={isSubmitting} 
                             onClick={handleCancelClick}
                         >
@@ -282,35 +318,63 @@ export default function EnvironmentVariableField({ envVar, onUpdate: handleUpdat
                     </div>
                 }
 
-                {/* lg+: Edit OR Save button */}
+                {/* lg+: Edit OR Confirm button */}
                 <div className="hidden lg:block">
-                    {isEditing 
-                        ? <SquareBtn
+                    {displayMode === 'view' && 
+                        <SquareBtn
+                            ariaLabel="Edit environment variable"
+                            disabled={isSubmitting} 
+                            onClick={() => setDisplayMode('edit')}
+                        >
+                            <Pencil className="icon-size draw-icon" />
+                        </SquareBtn>
+
+                    }
+                    {displayMode === 'edit' && 
+                        <SquareBtn
+                            ariaLabel="Submit edit"
                             disabled={isSubmitting} 
                             onClick={handleSubmit}
                         >
                             <Check className="icon-size draw-icon" />
                         </SquareBtn> 
-
-                        : <SquareBtn
+                    }
+                    {displayMode === 'aboutToDelete' &&
+                        <SquareBtn
+                            invert
+                            ariaLabel="Confirm delete"
                             disabled={isSubmitting} 
-                            onClick={() => setIsEditing(true)}
+                            onClick={handleConfirmDelete}
                         >
-                            <Pencil className="icon-size draw-icon" />
-                        </SquareBtn>
+                            <Check className="icon-size draw-icon" />
+                        </SquareBtn> 
                     }
                 </div>
 
                 {/* lg+: Delete OR Cancel button */}
                 <div className="hidden lg:block -mr-px z-10">
-                    {isEditing
-                        ? <SquareBtn 
+                    {displayMode === 'edit' &&
+                        <SquareBtn 
+                            ariaLabel="Cancel edit"
                             disabled={isSubmitting} 
                             onClick={handleCancelClick}
                         >
                             <CircleX className="icon-size draw-icon" />
                         </SquareBtn>
-                        : <SquareBtn 
+                    }
+                    {displayMode === 'aboutToDelete' &&
+                        <SquareBtn
+                            invert
+                            ariaLabel="Cancel delete"
+                            disabled={isSubmitting}
+                            onClick={handleCancelClick}
+                        >
+                            <CircleX className="icon-size draw-icon" />
+                        </SquareBtn>
+                    }
+                    {displayMode === 'view' &&
+                        <SquareBtn 
+                            ariaLabel="Delete environment variable"
                             disabled={isSubmitting} 
                             onClick={handleDeleteClick}   
                         >

@@ -110,6 +110,7 @@ export default function AddNewEnvVariableForm(
                     </div>
                     <SquareBtn
                         isSubmitBtn
+                        ariaLabel="Save variable"
                         disabled={isSubmitting}
                     >
                         <Check className="icon-size draw-icon" />
@@ -117,6 +118,7 @@ export default function AddNewEnvVariableForm(
 
                     <SquareBtn
                         disabled={isSubmitting}
+                        ariaLabel="Cancel adding new variable"
                         onClick={() => setIsAddingNewVar(false)}
                     >
                         <CircleX className="icon-size draw-icon" />

@@ -143,7 +143,9 @@ export default function EnvironmentVariableEditor({initialVars} : {initialVars: 
     return (
         <div 
             className={` grid min-h-screen 
-                grid-cols-[18vw_11px_1fr_11px_12vw]
+                
+                grid-cols-[10vw_11px_1fr_11px_6vw]
+                sm:grid-cols-[18vw_11px_1fr_11px_12vw]
                 lg:grid-cols-[12vw_11px_1fr_11px_2.3fr_11px_3vw]
                 xl:grid-cols-[16vw_11px_1fr_11px_2.3fr_11px_10vw]
 
@@ -156,7 +158,9 @@ export default function EnvironmentVariableEditor({initialVars} : {initialVars: 
 
             {/* COL: logo  & spacer*/}
             <div className="flex justify-end items-end">
-                <EvervaultSvg className={`size-14 md:size-16 mb-2
+                <EvervaultSvg className={`
+                    hidden sm:inline
+                    size-14 md:size-16 mb-2
                     text-accent object-contain 
                     draw-evervault-svg-logo 
                 `} />
@@ -167,12 +171,21 @@ export default function EnvironmentVariableEditor({initialVars} : {initialVars: 
 
             <div className="flex flex-col lg:flex-row justify-end lg:items-end ">
                 <h1 
-                    className={`text-6xl xl:text-7xl font-semibold tracking-tighter
+                    className={`text-5xl sm:text-6xl xl:text-7xl font-semibold tracking-tighter
                         lg:pb-1 pl-2.5 lg:pl-3 pr-3`}
                 >
                     Environment
                 </h1>
-                <SecondHeadline className="lg:hidden" />
+                <div className="flex ">
+                    <SecondHeadline className="lg:hidden" />
+                    <EvervaultSvg className={`
+                        inline sm:hidden
+                        ml-7
+                        size-12
+                        text-accent object-contain 
+                        draw-evervault-svg-logo 
+                        `} />
+                </div>
                 <BlackArrow direction="bottomRight" placeOnRight />
             </div>
             
@@ -365,7 +378,7 @@ function BlackArrow({ direction, absolutePosition, placeOnRight }: BlackArrowPro
 function SecondHeadline({className}: {className?: string}) {
     return (
         <h1 
-            className={`text-6xl xl:text-7xl font-semibold tracking-tighter
+            className={`text-5xl sm:text-6xl xl:text-7xl font-semibold tracking-tighter
                 font-outline-geist text-outline 
                 pl-3 lg:pb-1 
                 ${className}
