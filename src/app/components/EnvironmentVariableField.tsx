@@ -386,7 +386,7 @@ export default function EnvironmentVariableField({ envVar, onUpdate, onDelete}: 
                             disabled={isSubmitting} 
                             onClick={handleDeleteClick}   
                         >
-                            <Trash className="icon-size draw-intru" />
+                            <Trash className="icon-size draw-icon" />
                         </SquareBtn>
                     }
                 </div>

@@ -75,7 +75,7 @@ export default function SearchFilterBar({ searchQuery, setSearchQuery, sortOptio
                 `}
             >
                 <div className="pb-0.5">
-                    <Search className="icon-size draw-icon"  />
+                    <Search className="icon-size"  />
                 </div>
                 <input 
                     type="search"
@@ -128,7 +128,7 @@ export default function SearchFilterBar({ searchQuery, setSearchQuery, sortOptio
                             }
                         }}
                         >
-                    <ArrowDownNarrowWide className="shrink-0 icon-size draw-icon" />
+                    <ArrowDownNarrowWide className="shrink-0 icon-size" />
                     <span className="shrink-0">{sortOption}</span>
                     <ChevronDown className={`icon-size draw-icon shrink-0 
                         ${isDropdownOpen ? 'rotate-180' : ''} `} 

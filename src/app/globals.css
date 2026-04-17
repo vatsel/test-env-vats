@@ -104,8 +104,8 @@
 }
 
 .draw-icon path {
-  stroke-dasharray: 100;
-  stroke-dashoffset: 100;
+  stroke-dasharray: 60;
+  stroke-dashoffset: 60;
   animation: draw-icon 1s ease-out forwards;
 }
 
@@ -225,7 +225,7 @@ body {
   .drawn-border.draw-intro .edge {
     stroke-dasharray: 1;
     stroke-dashoffset: 1;
-    animation: draw-edge 0.3s ease-out forwards;
+    animation: draw-edge 0.4s ease-out forwards;
   }
 
   @keyframes draw-edge {
