@@ -68,7 +68,7 @@ export default function SearchFilterBar({ searchQuery, setSearchQuery, sortOptio
             {/* SEARCH */}
             <div className={`flex pl-4 z-10 
                 w-full h-11 xl:h-full
-                bg-base border-primary border 
+                bg-foundation border-primary border 
                 duration-100 ease-out
                 items-center
                 focus-within:border-2 
@@ -84,6 +84,9 @@ export default function SearchFilterBar({ searchQuery, setSearchQuery, sortOptio
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search..."
                     className={`bg-transparent outline-none 
+                        text-base sm:text-[12px]
+                        tracking-tighter sm:tracking-tight
+                        font-normal sm:font-semibold
                         pl-3 mr-1 w-full
                         placeholder:text-tertiary
                         [&::-webkit-search-cancel-button]:hidden 
@@ -95,7 +98,7 @@ export default function SearchFilterBar({ searchQuery, setSearchQuery, sortOptio
                         type="button"
                         aria-label="Clear search"
                         className={`outline-none mr-2
-                            focus:bg-accent focus:text-base`}
+                            focus:bg-accent focus:text-foundation`}
                     >
                         <X className="icon-size draw-icon shrink-0"  />
                     </button>
@@ -107,11 +110,11 @@ export default function SearchFilterBar({ searchQuery, setSearchQuery, sortOptio
             <div className="flex w-full relative">
                 <button 
                     className={`flex px-4 w-full h-11 xl:h-full gap-2
-                        bg-base border-primary border 
+                        bg-foundation border-primary border 
                         items-center justify-between
                         outline-none
                         duration-100 ease-out
-                        hover:bg-primary hover:text-base
+                        hover:bg-primary hover:text-foundation
                         focus-within:border-2 focus-within:border-primary
                         `}
                         type="button"
@@ -136,7 +139,7 @@ export default function SearchFilterBar({ searchQuery, setSearchQuery, sortOptio
                     <ul 
                         role="listbox"
                         onKeyDown={handleKeyDown}
-                        className={`absolute z-20 top-full left-0 w-full bg-base -mt-px
+                        className={`absolute z-20 top-full left-0 w-full bg-foundation -mt-px
                             border-primary border `}
                     >
                         {SORT_OPTIONS.map((option, i) => (
@@ -152,8 +155,8 @@ export default function SearchFilterBar({ searchQuery, setSearchQuery, sortOptio
                                     className={`w-full text-left px-3 py-2 
                                         outline-none
                                         duration-100 ease-out
-                                        hover:bg-primary hover:text-base
-                                        focus:bg-primary focus:text-base
+                                        hover:bg-primary hover:text-foundation
+                                        focus:bg-primary focus:text-foundation
                                         ${sortOption === option ? 'text-tertiary' : ''}`}
                                     onClick={() => {
                                         setSortOption(option);

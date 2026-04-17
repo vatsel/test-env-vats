@@ -117,7 +117,8 @@ export default function EnvironmentVariableField({ envVar, onUpdate, onDelete}: 
 
     return (
         <div 
-            className="grid grid-cols-subgrid lg:col-span-3 text-[12px] gap-1 lg:gap-0" 
+            className={`grid grid-cols-subgrid lg:col-span-3 
+                 text-[12px] gap-1 lg:gap-0`}
             onKeyDown={handleEnter}
         >
             {/* COLUMN 1: name  
@@ -127,7 +128,7 @@ export default function EnvironmentVariableField({ envVar, onUpdate, onDelete}: 
                 <div className="w-full lg:w-auto">
                     <div 
                         className={`flex items-center
-                            pl-5 lg:pl-6 h-11 bg-base 
+                            pl-5 lg:pl-6 h-11 bg-foundation 
                             duration-100 ease-out  
                             dashed-border 
                             ${(displayMode !== 'edit' && !isSubmitting) ? 'solid-dash' : ''}
@@ -147,7 +148,9 @@ export default function EnvironmentVariableField({ envVar, onUpdate, onDelete}: 
                                 placeholder="Name"
                                 value={envVarName}
                                 onChange={(e) => setEnvVarName(e.target.value)}
-                                className={`flex items-center text-primary outline-none h-11 
+                                className={`flex 
+                                    text-[16px] sm:text-[12px]
+                                    items-center text-primary outline-none h-11 
                                     placeholder:text-ui-detail w-full 
                                     `}
                             /> 
@@ -238,7 +241,7 @@ export default function EnvironmentVariableField({ envVar, onUpdate, onDelete}: 
                         px-5 lg:px-4 xl:px-6 h-11 
                         -mr-px lg:mr-0 /* overlap right border on <lg */
                         gap-gridgap 
-                        bg-base text-tertiary
+                        bg-foundation text-tertiary
 
                         dashed-border
                         ${(displayMode !== 'edit' && !isSubmitting) ? 'solid-dash' : ''}
@@ -257,6 +260,7 @@ export default function EnvironmentVariableField({ envVar, onUpdate, onDelete}: 
                                 onChange={(e) => setEnvVarValue(e.target.value)}
                                 placeholder="Value"
                                 className={`flex items-center w-full text-primary outline-none
+                                    text-base sm:text-[12px]
                                     placeholder:text-ui-detail`}
                             />
                             : <>
@@ -282,7 +286,7 @@ export default function EnvironmentVariableField({ envVar, onUpdate, onDelete}: 
                                     pointer-events-none
                                     absolute z-20 -top-2 px-1.5 left-5 lg:left-6
                                     duration-100 ease-out transition-opacity
-                                    bg-accent  text-base font-normal
+                                    bg-accent  text-foundation font-normal
                                 `}>
                                     { CLIPBOARD_MESSAGES[copyState] }
                                 </span>

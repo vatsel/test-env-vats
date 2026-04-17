@@ -25,7 +25,7 @@
   --color-tertiary: #6c6c6c;
 
   --color-accent: #63e;
-  --color-base: #fff;
+  --color-foundation: #fff;
   --color-off-white: #F4F4F9;
 
   --color-ui-detail: #C7C7C7;
@@ -178,5 +178,5 @@ body {
 
 ::selection {
   background-color: var(--color-accent);
-  color: var(--color-base);
+  color: var(--color-foundation);
 }

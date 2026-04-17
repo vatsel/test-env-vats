@@ -56,7 +56,7 @@ export default function AddNewEnvVariableForm(
                 }}
             >
                 <div>
-                    <div className={`flex items-center pl-6 h-11 bg-base
+                    <div className={`flex items-center pl-6 h-11 bg-foundation
                         duration-100 ease-out w-full
 
                         font-semibold -my-px
@@ -74,7 +74,8 @@ export default function AddNewEnvVariableForm(
                             value={newVarName}
                             onChange={(e) => setNewVarName(e.target.value)}
                             className={`outline-none text-primary 
-                                placeholder:text-ui-detail w-full `}
+                                placeholder:text-ui-detail w-full 
+                                text-base sm:text-[12px]`}
                         />
                     </div>
                     {/* we also show any overall form errors in the name section */}
@@ -87,7 +88,7 @@ export default function AddNewEnvVariableForm(
 
                 <div className="flex gap-1 lg:gap-gridgap items-start">
                     <div className="flex flex-col grow w-0">
-                        <div className={`flex items-center pl-6 h-11 bg-base
+                        <div className={`flex items-center pl-6 h-11 bg-foundation
                             duration-100 ease-out
                             font-semibold  -my-px 
                             dashed-border text-tertiary
@@ -101,7 +102,8 @@ export default function AddNewEnvVariableForm(
                                 value={newVarValue}
                                 onChange={(e) => setNewVarValue(e.target.value)}
                                 className={`outline-none text-primary 
-                                    placeholder:text-ui-detail w-full `}
+                                    placeholder:text-ui-detail w-full 
+                                    text-base sm:text-[12px]`}
                             />
                         </div>
                     {errors.fieldErrors.value && 
@@ -129,13 +131,13 @@ export default function AddNewEnvVariableForm(
                 <button 
                     type="button"
                     className={`flex outline-none pl-6 w-full h-full
-                        bg-accent text-base items-center
+                        bg-accent text-foundation items-center
                         duration-100 ease-out border-accent
 
-                        hover:bg-base hover:text-accent hover:border-accent 
+                        hover:bg-foundation hover:text-accent hover:border-accent 
                         hover:border hover:pl-5.75
 
-                        focus-within:bg-base focus-within:text-accent 
+                        focus-within:bg-foundation focus-within:text-accent 
                         focus-within:border-accent focus-within:border-2
                         /* compensating for the added border */
                         focus-within:pl-5.5 
