@@ -1,4 +1,4 @@
-import DashedBorder from "./DashedBorder";
+import DrawnBorder from "./DrawnBorder";
 
 type Props = {
     children: React.ReactNode;
@@ -13,7 +13,8 @@ export default function SquareBtn(
     { disabled, onClick, children, invert, isSubmitBtn, ariaLabel } : Props
 ){
     return (
-        <DashedBorder className={disabled ? 'border-color-tertiary' : '' }>
+        <DrawnBorder className={disabled ? 'border-color-tertiary' : '' }> 
+            {/* Border color is driven via tailwindcss --border-color var  */}
             <button
                 tabIndex={disabled ? -1 : 0}
                 onClick={onClick}
@@ -21,6 +22,7 @@ export default function SquareBtn(
                 aria-label={ariaLabel}
                 type={isSubmitBtn ? 'submit' : 'button'}
                 className={`relative flex items-center justify-center size-11
+                    
                     duration-100 ease-out
                     outline-none 
                     disabled:text-tertiary disabled:border-ui-detail
@@ -35,7 +37,7 @@ export default function SquareBtn(
             >
                 {children}
             </button>
-        </DashedBorder>
+        </DrawnBorder>
     )
 
 }

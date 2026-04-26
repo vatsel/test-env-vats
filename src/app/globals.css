@@ -1,10 +1,5 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @font-face {
   font-family: "Roobert";
   src: url("/fonts/Roobert.woff") format("woff");
@@ -36,15 +31,45 @@
   --animate-draw-right-to-left: draw-r-to-l 0.5s ease-in backwards;
   --animate-draw-top-to-bottom: draw-t-to-b 0.5s ease-in backwards;
   --animate-draw-bottom-to-top: draw-b-to-t 0.5s ease-in backwards;
+
+  @keyframes draw-l-to-r {
+    from { clip-path: inset(0 100% 0 0); }
+    to   { clip-path: inset(0 0 0 0); }
+  }
+
+  @keyframes draw-r-to-l {
+    from { clip-path: inset(0 0 0 100%); }
+    to   { clip-path: inset(0 0 0 0); }
+  }
+
+  @keyframes draw-t-to-b {
+    from { clip-path: inset(0 0 100% 0); }
+    to   { clip-path: inset(0 0 0 0); }
+  }
+
+  @keyframes draw-b-to-t {
+    from { clip-path: inset(100% 0 0 0); }
+    to   { clip-path: inset(0 0 0 0); }
+  }
 }
 
-@utility debug-border {
-  border: 1px solid red;
+@layer base {
+  :root {
+    --background: #ffffff;
+    --foreground: #171717;
+  }
+
+  body {
+    background: var(--background);
+    color: var(--foreground);
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: var(--color-foundation);
+  }
 }
 
-@utility debug-border2 {
-  border: 1px solid green;
-}
 
 @utility text-outline {
   -webkit-text-stroke: 1px #000;
@@ -60,30 +85,111 @@
   height: 1rem;
 }
 
-.dotted-line {
-  background-image: radial-gradient(circle, #696969 1px, transparent 1px);
-  background-size: 5px 1px;
-  background-repeat: repeat-x;
-}
+@layer components {
+  .dotted-line {
+    background-image: radial-gradient(circle, #696969 1px, transparent 1px);
+    background-size: 5px 1px;
+    background-repeat: repeat-x;
+  }
 
-@keyframes draw-l-to-r {
-  from { clip-path: inset(0 100% 0 0); }
-  to   { clip-path: inset(0 0 0 0); }
-}
+  .draw-evervault-svg-logo {
+    stroke-dasharray: 1340;
+    stroke-dashoffset: 1340;
+    animation: draw-svg-logo 0.5s ease-out forwards;
+    animation-delay: 0.3s;
+  }
 
-@keyframes draw-r-to-l {
-  from { clip-path: inset(0 0 0 100%); }
-  to   { clip-path: inset(0 0 0 0); }
-}
+  .draw-icon path {
+    stroke-dasharray: 60;
+    stroke-dashoffset: 60;
+    animation: draw-icon 1s ease-out forwards;
+  }
 
-@keyframes draw-t-to-b {
-  from { clip-path: inset(0 0 100% 0); }
-  to   { clip-path: inset(0 0 0 0); }
-}
+  .dashed-border {
+    border: none;
+    --gap: 4px;
+    --dash: 6px;
+    --w: 1px;
+    --seg: calc(var(--dash) + var(--gap));
+    --border-color: currentColor;
 
-@keyframes draw-b-to-t {
-  from { clip-path: inset(100% 0 0 0); }
-  to   { clip-path: inset(0 0 0 0); }
+    background-image:
+      repeating-linear-gradient(90deg,  var(--border-color) 0 var(--dash), transparent 0 var(--seg)),
+      repeating-linear-gradient(90deg,  var(--border-color) 0 var(--dash), transparent 0 var(--seg)),
+      repeating-linear-gradient(0deg,  var(--border-color) 0 var(--dash), transparent 0 var(--seg)),
+      repeating-linear-gradient(0deg,  var(--border-color) 0 var(--dash), transparent 0 var(--seg));
+
+    background-size:
+      var(--seg) var(--w),   
+      var(--seg) var(--w),   
+      var(--w) var(--seg),   
+      var(--w) var(--seg);   
+
+    background-position:
+      0 0,
+      0 100%,
+      0 0,
+      100% 0;
+
+    background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+
+    &:focus-within {
+      --gap: 0px;
+      --w: 2px;
+      --border-color: var(--color-primary);
+    }
+
+    &.solid-dash {
+      --gap: 0px;
+      --border-color: var(--color-ui-detail);
+    }
+
+    &.looping-dash {
+      --border-color: var(--color-primary);
+      animation: loop-anim 0.4s linear infinite;
+    }
+  }  
+
+  .drawn-rect-border {
+    position: relative;
+    --dash: 0.04;          
+    --gap: 0.025;          
+    --w: 1;
+    --border-color: currentColor;
+    --edge-animation: none;
+
+    .border-svg {
+      position: absolute;
+      z-index: 50;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: visible;
+
+      .edge {
+        fill: none;
+        stroke: var(--border-color);
+        stroke-width: var(--w);
+        stroke-dasharray: var(--dash) var(--gap);
+        stroke-dashoffset: 0;
+        animation: var(--edge-animation);
+        transition: stroke 0.15s;
+      }
+    }
+
+    &:focus-within {
+      --gap: 0;
+      --w: 2;
+      --border-color: var(--color-primary);
+    }
+
+    &.draw-intro .border-svg .edge {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+      --edge-animation: draw-edge 0.4s ease-out forwards;
+    }
+  }
 }
 
 @keyframes draw-svg-logo {
@@ -95,66 +201,15 @@
   to   { clip-path: inset(0 0 0 0 ); }
 }
 
-
-.draw-evervault-svg-logo {
-  stroke-dasharray: 1340;
-  stroke-dashoffset: 1340;
-  animation: draw-svg-logo 0.5s ease-out forwards;
-  animation-delay: 0.3s;
-}
-
-.draw-icon path {
-  stroke-dasharray: 60;
-  stroke-dashoffset: 60;
-  animation: draw-icon 1s ease-out forwards;
+@keyframes draw-edge {
+  to {
+    stroke-dashoffset: 0;
+  }
 }
 
 @keyframes draw-icon {
   to { stroke-dashoffset: 0; }
 }
-
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-} */
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-}
-
-.dashed-border {
-  --dash: 6px;
-  --gap: 4px;
-  --seg: calc(var(--dash) + var(--gap));
-  --w: 1px;
-  --border-color: currentColor;
-
-  border: none;
-  background-image:
-    repeating-linear-gradient(90deg,  var(--border-color) 0 var(--dash), transparent 0 var(--seg)),
-    repeating-linear-gradient(90deg,  var(--border-color) 0 var(--dash), transparent 0 var(--seg)),
-    repeating-linear-gradient(0deg,   var(--border-color) 0 var(--dash), transparent 0 var(--seg)),
-    repeating-linear-gradient(0deg,   var(--border-color) 0 var(--dash), transparent 0 var(--seg));
-
-  background-size:
-    var(--seg) var(--w),   
-    var(--seg) var(--w),   
-    var(--w) var(--seg),   
-    var(--w) var(--seg);   
-
-  background-position:
-    0 0,
-    0 100%,
-    0 0,
-    100% 0;
-
-  background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
-} 
-
-
 
 @keyframes loop-anim {
   to {
@@ -166,71 +221,24 @@ body {
   }
 }
 
-.dashed-border:focus-within {
-  --gap: 0px;
-  --w: 2px;
-  --border-color: var(--color-primary);
-}
-
-.dashed-border.solid-dash {
-  --gap: 0px;
-  --border-color: var(--color-ui-detail);
-}
-
-.dashed-border.looping-dash {
-  --border-color: var(--color-primary);
-  animation: loop-anim 0.4s linear infinite;
-}
-
-::selection {
-  background-color: var(--color-accent);
-  color: var(--color-foundation);
-}
-
-
-@layer components {
-  .drawn-border {
-    position: relative;
-    --dash: 0.04;          
-    --gap: 0.025;          
-    --seg: calc(var(--dash) + var(--gap));
-    --w: 1;
-    --border-color: currentColor;
-  }
-
-  .border-svg {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    overflow: visible;
-  }
-
-  .border-svg .edge {
-    fill: none;
-    stroke: var(--border-color);
-    stroke-width: var(--w);
-    stroke-dasharray: var(--dash) var(--gap);
-    stroke-dashoffset: 0;
-    transition: stroke 0.15s, stroke-width 0.15s, stroke-dasharray 0.15s;
-  }
-
-  .drawn-border:focus-within {
-    --gap: 0;
-    --w: 2;
-    --border-color: var(--color-primary);
-  }
-
-  .drawn-border.draw-intro .edge {
-    stroke-dasharray: 1;
-    stroke-dashoffset: 1;
-    animation: draw-edge 0.4s ease-out forwards;
-  }
-
-  @keyframes draw-edge {
-    to {
-      stroke-dashoffset: 0;
-    }
+@keyframes draw-in-dashed-border {
+  to {
+    --dash: 6px;
   }
 }
+
+/* @media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+} */
+
+
+/* @utility debug-border {
+  border: 1px solid red;
+}
+
+@utility debug-border2 {
+  border: 1px solid green;
+} */

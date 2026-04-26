@@ -124,11 +124,11 @@ export default function EnvironmentVariableField({ envVar, onUpdate, onDelete}: 
             {/* COLUMN 1: name  
             MD and smaller: edit and delete as well */}
             <div className="flex flex-row gap-1 lg:flex-col overflow-hidden -mx-px ">
-                <div className="w-full lg:w-auto">
+                <div className="w-full lg:w-auto mt-px lg:mt-0">
                     <div 
                         className={`flex items-center
                             relative 
-                            dashed-border
+                            dashed-border 
                             pl-5 lg:pl-6 h-11 bg-foundation 
                             duration-100 ease-out  
                             ${(displayMode !== 'edit' && !isSubmitting) ? 'solid-dash' : ''}
@@ -169,7 +169,7 @@ export default function EnvironmentVariableField({ envVar, onUpdate, onDelete}: 
                 
                 {/*  < lg: Edit and Delete button */}
                 {(displayMode === 'view' || displayMode === 'aboutToDelete') &&
-                    <div className="flex gap-1 lg:hidden z-10 mb-px">
+                    <div className="lg:hidden flex gap-1 z-10 mt-px mr-px mb-px">
                         {displayMode === 'view' &&
                             <>
                                 <SquareBtn
@@ -219,35 +219,33 @@ export default function EnvironmentVariableField({ envVar, onUpdate, onDelete}: 
 
             {/* COLUMN 3: reveal, value, last edit time and buttons. 
             < lg : remove edit/delete buttons */}
-            <div className="flex gap-1 lg:gap-gridgap items-start">
+            <div className="flex gap-1.5 lg:gap-gridgap items-start">
 
                 {/* View Hide Icon */}
                 {displayMode !== 'edit' &&
-                    <div className="-ml-px"> {/* overlap the lighter border */}
-                        <SquareBtn 
-                            ariaLabel={isRevealed ? 'Hide value' : 'Reveal value'}
-                            disabled={isSubmitting} 
-                            onClick={() => setIsRevealed(!isRevealed)}
-                        >
-                            {isRevealed 
-                                ? <EyeOff className="icon-size draw-icon" />
-                                : <Eye className="icon-size draw-icon" />
-                            }
-                        </SquareBtn>
-                    </div>
+                    <SquareBtn 
+                        ariaLabel={isRevealed ? 'Hide value' : 'Reveal value'}
+                        disabled={isSubmitting} 
+                        onClick={() => setIsRevealed(!isRevealed)}
+                    >
+                        {isRevealed 
+                            ? <EyeOff className="icon-size draw-icon" />
+                            : <Eye className="icon-size draw-icon" />
+                        }
+                    </SquareBtn>
                 }
 
                 {/* Variable & last edit time */}
                 <div className="flex flex-col grow w-0">
                     <div className={`relative flex items-center justify-between 
                         px-5 lg:px-4 xl:px-6 h-11 
-                        -mr-px lg:mr-0 /* overlap right border on <lg */
+                        -mr-px lg:mr-0 
                         gap-gridgap 
                         bg-foundation text-tertiary
 
                         dashed-border
                         ${(displayMode !== 'edit' && !isSubmitting) ? 'solid-dash' : ''}
-                        ${isSubmitting ? 'looping-dash mx-px' : ''} 
+                        ${isSubmitting ? 'looping-dash' : ''} 
                         ${displayMode === 'edit' 
                             ? 'font-semibold text-tertiary' 
                             // text-* sets colour in our dashed-border utility
@@ -261,8 +259,9 @@ export default function EnvironmentVariableField({ envVar, onUpdate, onDelete}: 
                                 value={envVarValue}
                                 onChange={(e) => setEnvVarValue(e.target.value)}
                                 placeholder="Value"
-                                className={`flex items-center w-full text-primary outline-none
-                                    text-base sm:text-[12px]
+                                className={`flex items-center w-full 
+                                    text-primary outline-none
+                                    text-base sm:text-[12px] 
                                     font-normal sm:font-semibold
                                     placeholder:text-ui-detail`}
                             />
@@ -300,9 +299,12 @@ export default function EnvironmentVariableField({ envVar, onUpdate, onDelete}: 
                             </> 
                             } 
                     </div>
-                    {errors.fieldErrors.value && 
-                        <ErrorTooltip errorText={errors.fieldErrors.value[0]} />
-                    }
+                    <div className="-mr-px lg:mr-0">
+                        {errors.fieldErrors.value && 
+                            <ErrorTooltip errorText={errors.fieldErrors.value[0]} />
+                        }
+
+                    </div>
 
                 </div>
                 

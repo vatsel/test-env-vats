@@ -43,3 +43,4 @@ As mentioned in the brief, the main component EnvironmentVariableEditor ends up 
 2. A dark mode was designed in Figma, which can be quickly implemented by changing the tailwindcss color values with a prefers-color-scheme media query
 3. Mobile visual updates to increase the size of elements and bring things back into balance
 4. Create a unique animated icon (SVG) for Environment Variables, to replace the evervault logo
+5. pixel perfect optimisations
