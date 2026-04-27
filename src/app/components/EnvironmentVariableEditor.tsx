@@ -230,11 +230,13 @@ export default function EnvironmentVariableEditor({initialVars} : {initialVars: 
             >
 
                 {/* First subgrid row spacer + arrow */}
-                <div className="relative min-h-6 lg:grid lg:grid-cols-subgrid lg:col-span-3 ">
-                    <div className="h-full dotted-line animate-draw-left-to-right " />
+                <div className="relative min-h-6 lg:grid lg:grid-cols-subgrid lg:col-span-3">
                     <BlackArrow direction="topLeft" absolutePosition />
+                    <div className="h-full dotted-line animate-draw-left-to-right " />
                     <StyledGapColumn className="hidden lg:block" hasDottedTopBorder />
-                    <div className="h-full dotted-line animate-draw-right-to-left " />
+                    <div className="hidden lg:block relative h-full dotted-line animate-draw-right-to-left">
+                        <BlackArrow direction="topLeft" absolutePosition />
+                    </div>
                 </div>
 
 
