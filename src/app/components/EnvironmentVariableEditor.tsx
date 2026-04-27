@@ -43,70 +43,86 @@ export default function EnvironmentVariableEditor({initialVars} : {initialVars: 
 
     const checkInput = async (
         name: string, 
-        value: string, 
-        checkUniqueId?: string
+        value: string,
+        id: string 
     ): Promise<ApiResponse> =>  {
         const parseResult = EnvVarSchema.safeParse({name, value});
-
-        if (!parseResult.success) {
-            const errors =  flattenError(parseResult.error);
-
-            return {success: false, errors};
+        if (!parseResult.success){
+            const errors = flattenError(parseResult.error);
+            return { success: false, errors: errors };
         }
+
         const { name: parsedName } = parseResult.data;
-        if (checkUniqueId){
-            if (envVarsState.some((envVar) => envVar.id !== checkUniqueId && envVar.name === parsedName)) {
-                return {
-                    success: false, 
-                    // can write a helper method to autofill the errors object in the future
-                    errors: { formErrors: [], fieldErrors: {name: ['Name must be unique']}} 
-                };
-            }
+        if (envVarsState.some((val) => val.id !== id && val.name === parsedName)){
+            return { success: false, errors: {formErrors : [], fieldErrors: {name: ['name must be unique']} } };
         }
+
 
         return { success: true };
+
     }
 
     const handleDelete = async (id: string): Promise<ApiResponse> => {
-        // any errors can be handled here in the future
-        await wait(1);
         
-        setEnvVarsState(prev => prev.filter((envVar) => envVar.id !== id));
+        try {
+            await wait(1);
+            
+            setEnvVarsState((prev) => prev.filter((val) => val.id !== id));
+            return { success: true };
 
-        return {success: true};
+        } catch (err) {
+            const message = err instanceof(Error) ? err.message : String(err);
+            return { success: false, errors: { formErrors: [message], fieldErrors: {}} };
+
+        } 
+
     };
 
     const handleAdd = async (name: string, value: string): Promise<ApiResponse> => {
-        const checkResult = await checkInput( name, value);
-        if (!checkResult.success) {
-            return checkResult;
+        const newId = crypto.randomUUID();
+        const checkResult = await checkInput(name, value, newId);
+        if (!checkResult.success){
+            return { success: false, errors: checkResult.errors };
         }
 
-        await wait(1);
+        try {
+            await wait(1);
 
-        setEnvVarsState(prev => [
-            ...prev, 
-            { id: crypto.randomUUID(), name, value, createdAt: new Date(), lastUpdated: null }
-        ]);
-        
-        return {success: true};
+            setEnvVarsState((prev) => [
+                ...prev, 
+                { id: newId, name, value, createdAt: new Date(Date.now()), lastUpdated: null  }
+            ]);
+
+            return { success: true };
+
+        } catch (err) {
+            const message = err instanceof(Error) ? err.message : String(err);
+            return { success: false, errors: {formErrors: [message], fieldErrors: {}}};
+        }
+
     };
 
     const handleUpdate = async (id: string, name: string, value: string): Promise<ApiResponse> => {
         const checkResult = await checkInput(name, value, id);
-        if (!checkResult.success) {
-            return checkResult;
+        if (!checkResult.success){
+            return { success: false, errors: checkResult.errors };
+        }
+        
+        try {
+            await wait(1);
+
+            setEnvVarsState((prev) => [
+                ...prev.filter((val) => val.id !== id),
+                { id: crypto.randomUUID(), name, value, createdAt: new Date(Date.now()), lastUpdated: null }
+            ]);
+            
+            return { success: true };
+
+        } catch (err) {
+            const message = err instanceof(Error) ? err.message : String(err);
+            return { success: false, errors: {formErrors: [message], fieldErrors: {}}};
         }
 
-        await wait(1);
-
-        setEnvVarsState(prev => prev.map((envVar) => 
-            envVar.id === id
-            ? {id, name, value, createdAt: envVar.createdAt, lastUpdated: new Date()} 
-            : envVar
-        ));
-        
-        return {success: true};
     };
 
     const filteredEnvVars = envVarsState.filter((envVar) => 
