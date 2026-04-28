@@ -25,12 +25,21 @@ export default function AddNewEnvVariableForm(
         setErrors({ formErrors: [], fieldErrors: {} });
     }
 
+    const handleEscape = (e: React.KeyboardEvent) => {
+        if (!isSubmitting && e.key === 'Escape') {
+            e.stopPropagation();
+            setIsAddingNewVar(false);
+            clearForm();
+        }
+    }
+
     return (
     <>
         {isAddingNewVar
             ? <form
                 className={`text-[12px] flex flex-col gap-1 lg:gap-0
                     lg:grid lg:grid-cols-subgrid lg:col-span-3`}
+                onKeyDown={handleEscape}
                 onSubmit={async (e) => {
                     e.preventDefault();
                     // handleAdd is on the client, but let's pretend it's on the server 

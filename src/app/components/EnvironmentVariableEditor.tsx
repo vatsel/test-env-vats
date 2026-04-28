@@ -16,24 +16,15 @@ import SearchFilterBar from "./SearchFilterBar";
 
 import EvervaultSvg from "@/assets/evervault-icon-white.svg"
 
-type EnvVarState = {
-    id: string; // for deduplication. in production we'll get something from the server 
-    name: string;
-    value: string;
-    createdAt: Date;
-    lastUpdated: Date | null;
-}
-
-
 
 export default function EnvironmentVariableEditor({initialVars} : {initialVars: EnvironmentVariable[]}) {
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [sortOption, setSortOption] = useState<SortOption>(SORT_OPTIONS[0]);
 
     // forced to use state here 
-    const [envVarsState, setEnvVarsState] = useState<EnvVarState[]>(
+    const [envVarsState, setEnvVarsState] = useState<EnvironmentVariable[]>(
         initialVars.map((envVar) => ({
-            id: crypto.randomUUID(), // crypto.randomUUID() should be very fast for our test purposes
+            id: envVar.id, 
             name: envVar.name, 
             value: envVar.value,
             createdAt: envVar.createdAt,
@@ -111,9 +102,21 @@ export default function EnvironmentVariableEditor({initialVars} : {initialVars: 
         try {
             await wait(1);
 
+            const existingEnvVar = envVarsState.find((val) => val.id === id);
+            if (!existingEnvVar){
+                console.log('env var not found with id ', id);
+                return { success: false, errors: {formErrors: ['server error'], fieldErrors: {}} };
+            }
+
             setEnvVarsState((prev) => [
                 ...prev.filter((val) => val.id !== id),
-                { id: crypto.randomUUID(), name, value, createdAt: new Date(Date.now()), lastUpdated: null }
+                { 
+                    id, 
+                    name, 
+                    value, 
+                    createdAt: existingEnvVar.createdAt, 
+                    lastUpdated: new Date(Date.now()) 
+                }
             ]);
             
             return { success: true };

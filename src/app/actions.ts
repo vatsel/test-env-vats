@@ -23,6 +23,8 @@ export async function loadEnvironmentVariables(someId: string): Promise<Environm
         const hasUpdateDate = Math.random() > 0.7;
 
         return {
+            // crypto.randomUUID() should be very fast for our test purposes
+            id: crypto.randomUUID(), 
             name: datum.name,
             value: datum.value,
             createdAt: dates[Math.floor(Math.random() * dates.length)],

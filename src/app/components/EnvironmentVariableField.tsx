@@ -91,10 +91,14 @@ export default function EnvironmentVariableField({ envVar, onUpdate, onDelete}: 
     };
 
 
-    const handleEnter = (e: React.KeyboardEvent) => {
+    const handleKeys = (e: React.KeyboardEvent) => {
         if (displayMode === 'edit' && !isSubmitting && e.key === 'Enter') {
             e.preventDefault();
             handleSubmit();
+        }
+        if (displayMode === 'edit' && !isSubmitting && e.key === 'Escape') {
+            e.preventDefault();
+            handleCancelClick();
         }
     };
 
@@ -119,7 +123,7 @@ export default function EnvironmentVariableField({ envVar, onUpdate, onDelete}: 
         <div 
             className={`grid grid-cols-subgrid lg:col-span-3 
                  text-[12px] gap-1 lg:gap-0`}
-            onKeyDown={handleEnter}
+            onKeyDown={handleKeys}
         >
             {/* COLUMN 1: name  
             MD and smaller: edit and delete as well */}

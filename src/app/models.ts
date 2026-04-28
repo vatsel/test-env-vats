@@ -1,6 +1,7 @@
 import { SORT_OPTIONS } from "./constants";
 
 export type EnvironmentVariable = {
+    id: string;
     name: string;
     value: string;
     createdAt: Date;
