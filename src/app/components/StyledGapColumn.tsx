@@ -14,7 +14,7 @@ export default function StyledGapColumn({hasDottedTopBorder, className}: Props) 
                 ${className}
             `} 
         >
-            {/* {hasDottedTopBorder && <div className="dotted-line h-full animate-draw-in" />} */}
+        
         </div>
     )
 }
