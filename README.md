@@ -24,8 +24,8 @@ Each env var gets an added "last changed" date when the mock data is loaded.
 ## Potentially non-obvious additions
 - Common breakpoints (including mobile) have been tested to work
 - Zod was added for input validation, enabling per-input-field tooltips in case of bad/incomplete input
-- Sorting dropdown list supports ARIA keyboard inputs like ArrowDown/ArrowUp/Esc
-- Search supports ARIA specs like results announcement
+- Sorting dropdown list supports keyboard inputs like ArrowDown/ArrowUp/Esc
+- Search results supports ARIA announcement
 - Deleting, editing and adding new env vars mimics interfacing async with a server. Error results are handled
 - Hovering over the environment value reveals a "click to copy to clipboard" functionality. Tabbing to the button and hitting enter also copies the text to clipboard
 
@@ -43,4 +43,5 @@ As mentioned in the brief, the main component EnvironmentVariableEditor ends up 
 2. A dark mode was designed in Figma, which can be quickly implemented by changing the tailwindcss color values with a prefers-color-scheme media query
 3. Mobile visual updates to increase the size of elements and bring things back into balance
 4. Create a unique animated icon (SVG) for Environment Variables, to replace the evervault logo
-5. pixel perfect optimisations
+5. Pixel perfect optimisations 
+6. Maintainability: consolidating some css classes and react prop-conditional classNames so they are easier to understand
